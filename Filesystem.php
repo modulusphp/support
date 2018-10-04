@@ -2,8 +2,6 @@
 
 namespace Modulus\Support;
 
-use Symfony\Component\Filesystem\Filesystem as fs;
-
 class Filesystem
 {
   const PUBLIC = 'public';
