@@ -13,12 +13,16 @@
   "require": {
     "modulusphp/utility": "^1.9.0",
     "modulusphp/security": "^1.9.0",
-    "modulusphp/http": "^1.9.0"
+    "modulusphp/http": "^1.9.0",
+    "symfony/var-dumper": "*"
   },
   "autoload": {
     "psr-4": {
       "ModulusPHP\\Support\\": ""
-    }
+    },
+    "files": [
+      "helpers.php"
+    ]
   },
   "minimum-stability": "stable"
 }
