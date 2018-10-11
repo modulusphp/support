@@ -66,13 +66,17 @@ class Obj
    */
   public static function url(string $path, $uri)
   {
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-      $http = 'https://';
-    } else {
-      $http = 'http://';
-    }
+    if (isset($_SERVER['HTTP_HOST'])) {
+      if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        $http = 'https://';
+      } else {
+        $http = 'http://';
+      }
 
-    $url = ($uri ? $http . $_SERVER['HTTP_HOST'] : '') . $path;
+      $url = ($uri ? $http . $_SERVER['HTTP_HOST'] : '') . $path;
+    } else {
+      $url = config('app.url') . $path;
+    }
 
     if (isset($_SERVER['QUERY_STRING'])) {
       if (str_contains($url, '?')) $url .= '&' . $_SERVER['QUERY_STRING'];
