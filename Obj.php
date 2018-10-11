@@ -75,7 +75,7 @@ class Obj
 
       $url = ($uri ? $http . $_SERVER['HTTP_HOST'] : '') . $path;
     } else {
-      $url = config('app.url') . $path;
+      $url = ($uri ? config('app.url') : '') . $path;
     }
 
     if (isset($_SERVER['QUERY_STRING'])) {
