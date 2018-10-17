@@ -122,3 +122,9 @@ if (!function_exists('public_path')) {
     return Obj::public_path($file);
   }
 }
+
+if (!function_exists('base_path')) {
+  function base_path($file = null) {
+    return Obj::base_path($file);
+  }
+}

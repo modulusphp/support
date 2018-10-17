@@ -159,6 +159,18 @@ class Obj
     return config('app.dir') . 'public' . DIRECTORY_SEPARATOR . $file;
   }
 
+   /**
+   * public_path
+   *
+   * @param string $file
+   * @return void
+   */
+  public static function base_path(?string $file = null)
+  {
+    $file = (substr($file, 0, 1) == DIRECTORY_SEPARATOR ? substr($file, 1) : $file);
+    return config('app.dir') . $file;
+  }
+
   /**
    * Cancel application cycle
    *
