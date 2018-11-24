@@ -4,8 +4,14 @@ namespace Modulus\Support;
 
 class Filesystem
 {
+  /**
+   * Filesystem::PUBLIC
+   */
   const PUBLIC = 'public';
 
+  /**
+   * Filesysytem::PRIVATE
+   */
   const PRIVATE = 'private';
 
   /**
@@ -41,6 +47,17 @@ class Filesystem
   public static function put($path, $contents, $lock = false)
   {
     return file_put_contents($path, $contents, $lock ? LOCK_EX : 0);
+  }
+
+  /**
+   * Get file contents
+   *
+   * @param string $path
+   * @return string
+   */
+  public static function get(string $path)
+  {
+    return file_get_contents($path);
   }
 
   /**
