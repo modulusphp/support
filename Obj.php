@@ -59,13 +59,18 @@ class Obj
   }
 
   /**
-   * Set url
+   * Set url (don't use this)
    *
    * @param mixed $path
    * @return void
    */
   public static function url(string $path, $uri)
   {
+    $path = substr($path, 0, 1) != '/' ? '/' . $path : $path;
+
+    $root = isset($_SERVER["SCRIPT_NAME"]) ? $_SERVER['SCRIPT_NAME'] : '';
+    $dir = pathinfo($root)['dirname'];
+
     if (isset($_SERVER['HTTP_HOST'])) {
       if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
         $http = 'https://';
@@ -73,7 +78,7 @@ class Obj
         $http = 'http://';
       }
 
-      $url = ($uri ? $http . $_SERVER['HTTP_HOST'] : '') . $path;
+      $url = $http . $_SERVER['HTTP_HOST'] . ($dir == '/' ? '' : $dir) . $path;
     } else {
       $url = ($uri ? config('app.url') : '') . $path;
     }
@@ -123,28 +128,27 @@ class Obj
   }
 
   /**
+   * database_path
+   *
+   * @param string $file
+   * @return void
+   */
+  public static function database_path(?string $file = null)
+  {
+    $file = (substr($file, 0, 1) == DIRECTORY_SEPARATOR ? substr($file, 1) : $file);
+    return config('app.dir') . 'database' . DIRECTORY_SEPARATOR . $file;
+  }
+
+  /**
    * storage_path
    *
    * @param string $file
    * @return void
    */
-  public static function storage_path(?string $file = null, ?string $disc = null)
+  public static function storage_path(?string $file = null)
   {
     $file = (substr($file, 0, 1) == DIRECTORY_SEPARATOR ? substr($file, 1) : $file);
-
-    if (in_array(strtolower($disc), ['public', 'private'])) {
-      if (strtolower($disc) == 'public') {
-        return config('app.dir') . 'public' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR . $file;
-      } elseif (strtolower($disc) == 'private') {
-        return config('app.dir') . 'storage' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR . $file;
-      }
-    }
-
-    if ($disc == null) {
-      return config('app.dir') . 'storage' . DIRECTORY_SEPARATOR . $file;
-    }
-
-    throw new Exception('Unknown file storage.');
+    return config('app.dir') . 'storage' . DIRECTORY_SEPARATOR . $file;
   }
 
   /**
@@ -156,11 +160,11 @@ class Obj
   public static function public_path(?string $file = null)
   {
     $file = (substr($file, 0, 1) == DIRECTORY_SEPARATOR ? substr($file, 1) : $file);
-    return config('app.dir') . 'public' . DIRECTORY_SEPARATOR . $file;
+    return config('app.dir') . 'storage' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'public' . DIRECTORY_SEPARATOR . $file;
   }
 
    /**
-   * public_path
+   * bsae_path
    *
    * @param string $file
    * @return void
