@@ -3,6 +3,9 @@
 namespace Modulus\Support;
 
 use Exception;
+use Modulus\Support\Config;
+use Modulus\Support\Exceptions\UnknownStorageException;
+use Modulus\Support\Exceptions\StorageUnusableException;
 
 class File
 {
@@ -30,18 +33,26 @@ class File
   /**
    * __construct
    *
-   * @param mixed $file
+   * @param array $file
+   * @param string|null $storage
    * @return void
    */
-  public function __construct(array $file, ?string $disc = null)
+  public function __construct(array $file, ?string $storage = null)
   {
-    $this->info = $file;
-    $this->disc = ($disc == null) ? 'public' : $disc;
+    $this->info    = $file;
+    $this->storage = Config::get('filesystems.disks');
 
-    $this->storage = [
-      'public' => config('app.dir') . 'public' . DIRECTORY_SEPARATOR . 'storage' . DIRECTORY_SEPARATOR,
-      'private' =>  config('app.dir') . 'storage' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'data' . DIRECTORY_SEPARATOR,
-    ];
+    if ($storage != null) {
+      if (isset($this->storage[$storage])) {
+        $this->disc = $storage;
+        return;
+      }
+
+      throw new UnknownStorageException;
+    }
+
+    $this->disc = 'public';
+
   }
 
   /**
@@ -52,12 +63,12 @@ class File
    */
   public function disc(string $storage)
   {
-    if (in_array(strtolower($storage), ['public', 'private'])) {
+    if (isset($this->storage[$storage])) {
       $this->disc = strtolower($storage);
       return $this;
     }
 
-    throw new Exception('Unknown file storage.');
+    throw new UnknownStorageException;
   }
 
   /**
@@ -95,28 +106,28 @@ class File
   public function move(?string $dest = null)
   {
     if ($dest != null || $dest != '') {
-      $this->storage[$this->disc] . $this->cleanPath($dest);
-      if (!$this->__dir($path)) throw new Exception('Storage is unusable.');
+      $path = $this->storage[$this->disc]['root'] . DIRECTORY_SEPARATOR . $this->cleanPath($dest);
+      if (!$this->__dir($path)) throw new StorageUnusableException;
       $file = $path . DIRECTORY_SEPARATOR . $this->info['name'];
     } else {
-      $file = $this->storage[$this->disc] . $this->info['name'];
+      $file = $this->storage[$this->disc]['root'] . DIRECTORY_SEPARATOR . $this->info['name'];
     }
 
     if (file_exists($file)) {
-      return (object)[
+      return [
         'status' => 'failed',
         'reason' => 'file already exists',
       ];
     }
 
     if (move_uploaded_file($this->info['tmp_name'], $file)) {
-      return (object)[
+      return [
         'status' => 'success',
         'path' => $file,
       ];
     }
     else {
-      return (object)[
+      return [
         'status' => 'failed',
         'reason' => 'something went wrong',
       ];
