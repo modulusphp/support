@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/support",
   "description": "Support component for modulusPHP",
-  "version": "1.9.2",
+  "version": "1.9.2.1",
   "license": "MIT",
   "type": "package",
   "authors": [{
@@ -9,9 +9,9 @@
     "email": "donaldpakkies@gmail.com"
   }],
   "require": {
-    "modulusphp/utility": "^1.9.3",
-    "modulusphp/security": "^1.9.1",
-    "modulusphp/http": "^1.9.4",
+    "modulusphp/utility": "1.9.*",
+    "modulusphp/security": "1.9.*",
+    "modulusphp/http": "1.9.*",
     "symfony/var-dumper": "*"
   },
   "autoload": {
