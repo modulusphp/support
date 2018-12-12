@@ -15,7 +15,7 @@ class Shortcut
    * @param array $args
    * @return mixed
    */
-  public function run(string $function, array $args = [])
+  public static function run(string $function, array $args = [])
   {
     if (!class_exists(\App\Utils\Shortcuts::class)) {
       throw new ShortcutsClassNotFoundException;
