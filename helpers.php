@@ -433,20 +433,18 @@ if (!function_exists('cache')) {
   }
 }
 
-if (!function_exists('__')) {
+if (!function_exists('___')) {
   /**
    * Call helper function
    *
    * @param string $function
    * @param mixed $parameters
    */
-
-  // disabled due to a conflict
-  // function __(string $function) {
-  //   $args = func_get_args();
-  //   unset($args[0]);
-  //   return Shortcut::run($function, $args);
-  // }
+  function ___(string $function) {
+    $args = func_get_args();
+    unset($args[0]);
+    return Shortcut::run($function, $args);
+  }
 }
 
 if (!function_exists('fn')) {
