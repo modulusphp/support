@@ -43,13 +43,14 @@ if (!function_exists('process')) {
 
 if (!function_exists('old')) {
   /**
-   * Get old value
+   * Get old value or fallback
    *
    * @param mixed $value
+   * @param mixed $fallback
    * @return void
    */
-  function old($value) {
-    return Obj::old($value);
+  function old($value, $fallback = '') {
+    return Obj::old($value, $fallback);
   }
 }
 

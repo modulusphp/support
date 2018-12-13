@@ -25,14 +25,15 @@ class Obj
   }
 
   /**
-   * Get old value
+   * Get old value or fallback
    *
    * @param mixed $value
+   * @param mixed $fallback
    * @return void
    */
-  public static function old($value)
+  public static function old($value, $fallback = '')
   {
-    return Variable::has('form.old') ? (isset(Variable::get('form.old')[$value]) ? Variable::get('form.old')[$value] :'') : '';
+    return Variable::has('form.old') ? (isset(Variable::get('form.old')[$value]) ? Variable::get('form.old')[$value] : $fallback) : $fallback;
   }
 
   /**
