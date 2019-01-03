@@ -5,6 +5,7 @@ use Modulus\Http\Route;
 use Modulus\Support\Arr;
 use Modulus\Support\Mix;
 use Modulus\Support\Obj;
+use Modulus\Http\Session;
 use Modulus\Utility\View;
 use Modulus\Http\Redirect;
 use Modulus\Security\Auth;
@@ -485,5 +486,32 @@ if (!function_exists('notify')) {
    */
   function notify(Notification $notification) {
     return (new Notification($notification))->now();
+  }
+}
+
+if (!function_exists('session')) {
+ /**
+  * Return a session class
+  *
+  * @param mixed $key
+  * @param mixed $value
+  * @return
+  */
+  function session($key = null, $value = null) {
+    if ($key == null) return new Session;
+    return Session::key($key, $value);
+  }
+}
+
+if (!function_exists('flash')) {
+ /**
+  * Create a flash message
+  *
+  * @param string $key
+  * @param mixed $value
+  * @return
+  */
+  function flash(string $key, $value = null) {
+    return Session::flash($key, $value);
   }
 }
