@@ -4,11 +4,14 @@ namespace Modulus\Support;
 
 use Exception;
 use Modulus\Support\Config;
+use Modulus\Support\Extendable;
 use Modulus\Support\Exceptions\UnknownStorageException;
 use Modulus\Support\Exceptions\StorageUnusableException;
 
 class File
 {
+  use Extendable;
+
   /**
    * $info
    *
