@@ -1,7 +1,7 @@
 {
   "name": "modulusphp/support",
   "description": "Support component for Modulus",
-  "version": "1.9.2.4",
+  "version": "1.9.3.0",
   "license": "MIT",
   "type": "package",
   "authors": [{
