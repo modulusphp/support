@@ -2,7 +2,9 @@
 
 namespace Modulus\Support;
 
+use Error;
 use Closure;
+use Modulus\Support\Errors\ExtendableArgumentError;
 use Modulus\Support\Exceptions\CannotAddMethodException;
 use Modulus\Support\Exceptions\CannotCallMethodException;
 
@@ -84,7 +86,11 @@ trait Extendable
   public function __call(string $method, array $args)
   {
     if (array_key_exists($method, Self::$functions)) {
-      return call_user_func_array(Self::$functions[$method][$method], array_merge([$this], $args));
+      try {
+        return call_user_func_array(Self::$functions[$method][$method], array_merge([$this], $args));
+      } catch (Error $e) {
+        throw new ExtendableArgumentError($e, self::class, $method);
+      }
     }
   }
 
@@ -98,7 +104,11 @@ trait Extendable
   public static function __callStatic(string $method, array $args)
   {
     if (array_key_exists($method, Self::$staticFunctions)) {
-      return call_user_func_array(Self::$staticFunctions[$method][$method], $args);
+      try {
+        return call_user_func_array(Self::$staticFunctions[$method][$method], $args);
+      } catch (Error $e) {
+        throw new ExtendableArgumentError($e, self::class, $method, true);
+      }
     }
   }
 }
