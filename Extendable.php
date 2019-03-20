@@ -73,4 +73,32 @@ trait Extendable
 
     throw new CannotCallMethodException('Call to ' . self::class . '::static() is not allowed');
   }
+
+  /**
+   * Call custom function
+   *
+   * @param string $method
+   * @param array $args
+   * @return mixed
+   */
+  public function __call(string $method, array $args)
+  {
+    if (array_key_exists($method, Self::$functions)) {
+      return call_user_func_array(Self::$functions[$method][$method], array_merge([$this], $args));
+    }
+  }
+
+  /**
+   * Call custom static function
+   *
+   * @param string $method
+   * @param array $args
+   * @return mixed
+   */
+  public static function __callStatic(string $method, array $args)
+  {
+    if (array_key_exists($method, Self::$staticFunctions)) {
+      return call_user_func_array(Self::$staticFunctions[$method][$method], $args);
+    }
+  }
 }
