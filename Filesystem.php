@@ -2,8 +2,12 @@
 
 namespace Modulus\Support;
 
+use Modulus\Support\Extendable;
+
 class Filesystem
 {
+  use Extendable;
+
   /**
    * Filesystem::PUBLIC
    */
