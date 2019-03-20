@@ -124,6 +124,16 @@ class File
     }
 
     if (move_uploaded_file($this->info['tmp_name'], $file)) {
+
+      /**
+       * For some weird reason, sometimes files don't get
+       * moved. So let's run this again and hope this file
+       * will get moved
+       */
+      if (!file_exists($file)) {
+        move_uploaded_file($this->info['tmp_name'], $file);
+      }
+
       return [
         'status' => 'success',
         'path' => $file,
