@@ -109,7 +109,7 @@ if (!function_exists('view')) {
    * @return void
    */
   function view($view, $data = []) {
-    View::make($view, $data);
+    return View::make($view, $data);
   }
 }
 
@@ -455,6 +455,7 @@ if (!function_exists('fn')) {
    *
    * @param string $function
    * @param mixed $parameters
+   * @deprecated 2.0
    */
   function fn(string $function) {
     $args = func_get_args();
