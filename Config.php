@@ -47,7 +47,11 @@ class Config
     unset($conf[0]);
 
     foreach($conf as $setting) {
-      $service = $service[$setting];
+      if (isset($service[$setting])) {
+        $service = $service[$setting];
+      } else {
+        return null;
+      }
     }
 
     return $service;
