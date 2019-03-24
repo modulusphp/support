@@ -34,6 +34,41 @@ class File
   protected $storage;
 
   /**
+   * File name
+   *
+   * @var string
+   */
+  public $name;
+
+  /**
+   * File type
+   *
+   * @var string
+   */
+  public $type;
+
+  /**
+   * Temp name (path)
+   *
+   * @var string
+   */
+  public $tmp_name;
+
+  /**
+   * File error
+   *
+   * @var int
+   */
+  public $error;
+
+  /**
+   * File size
+   *
+   * @var int
+   */
+  public $size;
+
+  /**
    * __construct
    *
    * @param array $file
@@ -42,6 +77,10 @@ class File
    */
   public function __construct(array $file, ?string $storage = null)
   {
+    foreach ($file as $key => $value) {
+      $this->{$key} = $value;
+    }
+
     $this->info    = $file;
     $this->storage = Config::get('filesystems.disks');
 
