@@ -4,7 +4,7 @@ namespace Modulus\Support;
 
 use Modulus\Support\Extendable;
 
-class Filesystem
+final class Filesystem
 {
   use Extendable;
 

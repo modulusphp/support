@@ -8,7 +8,7 @@ use Modulus\Support\Extendable;
 use Modulus\Support\Exceptions\UnknownStorageException;
 use Modulus\Support\Exceptions\StorageUnusableException;
 
-class File
+final class File
 {
   use Extendable;
 
