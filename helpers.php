@@ -15,6 +15,7 @@ use Modulus\Hibernate\Cache;
 use Modulus\Utility\Command;
 use Modulus\Utility\Process;
 use Modulus\Support\Shortcut;
+use Modulus\Utility\Variable;
 use Modulus\Http\UrlGenerator;
 use Modulus\Utility\Notification;
 use AtlantisPHP\Telemonlog\Output;
@@ -329,10 +330,11 @@ if (!function_exists('has')) {
    * Check if variables exists
    *
    * @param string $name
+   * @param null|string $syntax
    * @return bool
    */
-  function has($name) {
-    return Variable::has($name);
+  function has($name, ?string $syntax = null) {
+    return Variable::has($name, $syntax);
   }
 }
 
