@@ -14,6 +14,13 @@ class Config
   public static $all;
 
   /**
+   * Temporary config
+   *
+   * @var array
+   */
+  public static $temp = [];
+
+  /**
    * Check if setting exists
    *
    * @param string $key
@@ -26,6 +33,7 @@ class Config
 
     foreach($expect as $setting) {
       if (!isset($config[$setting])) return false;
+
       $config = $config[$setting];
     }
 
@@ -40,10 +48,15 @@ class Config
    */
   public static function get(string $config)
   {
+    if (isset(self::$temp[$config])) return self::$temp[$config];
+
     $conf = explode('.', $config);
     $path = DEPConfig::$appdir . 'config' . DIRECTORY_SEPARATOR . $conf[0] . '.php';
 
+    if (!file_exists($path)) return null;
+
     $service = require $path;
+
     unset($conf[0]);
 
     foreach($conf as $setting) {
@@ -55,6 +68,37 @@ class Config
     }
 
     return $service;
+  }
+
+  /**
+   * Set temporary config
+   *
+   * @param string $name
+   * @param mixed $value
+   * @return bool
+   */
+  public static function set(string $name, $value) : bool
+  {
+    if (isset(self::$temp[$name])) return false;
+
+    return is_array(self::$temp = array_merge(self::$temp, [$name => $value]));
+  }
+
+  /**
+   * Forget temporary config
+   *
+   * @param string $config
+   * @return bool
+   */
+  public static function forget(string $config) : bool
+  {
+    if (array_key_exists($config, self::$temp)) {
+      unset(self::$temp[$config]);
+
+      return true;
+    }
+
+    return false;
   }
 
   /**
