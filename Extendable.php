@@ -37,8 +37,9 @@ trait Extendable
   /**
    * Add custom function
    *
-   * @param string $method
-   * @param Closure $closure
+   * @param string $method The name of the method
+   * @param Closure $closure The callback that should be executed
+   * @throws CannotAddMethodException|CannotCallMethodException
    * @return mixed
    */
   public static function bind(string $method, Closure $closure)
@@ -63,8 +64,9 @@ trait Extendable
   /**
    * Add custom static function
    *
-   * @param string $method
-   * @param Closure $closure
+   * @param string $method The name of the method
+   * @param Closure $closure The callback that should be executed
+   * @throws CannotAddMethodException|CannotCallMethodException
    * @return mixed
    */
   public static function static(string $method, Closure $closure)
@@ -89,8 +91,9 @@ trait Extendable
   /**
    * Add custom property
    *
-   * @param string $property
-   * @param Closure $closure
+   * @param string $property The name of the property
+   * @param Closure $closure The callback that should be executed
+   * @throws CannotAddPropertyException|CannotCallMethodException
    * @return mixed
    */
   public static function prop(string $property, Closure $closure)
@@ -115,8 +118,9 @@ trait Extendable
   /**
    * Call custom function
    *
-   * @param string $method
+   * @param string $method The name of the method
    * @param array $args
+   * @throws ExtendableArgumentError|UndefinedMethodError
    * @return mixed
    */
   public function __call(string $method, array $args)
@@ -138,8 +142,9 @@ trait Extendable
   /**
    * Call custom static function
    *
-   * @param string $method
+   * @param string $method The name of the method
    * @param array $args
+   * @throws ExtendableArgumentError|UndefinedMethodError
    * @return mixed
    */
   public static function __callStatic(string $method, array $args)
@@ -161,8 +166,9 @@ trait Extendable
   /**
    * Call custom property
    *
-   * @param string $property
+   * @param string $property The name of the property
    * @param array $args
+   * @throws ExtendableArgumentError|UndefinedPropertyErrorException
    * @return mixed
    */
   public function __get(string $property)

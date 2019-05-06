@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Modulus\Http\Rest;
 use Modulus\Http\Route;
 use Modulus\Support\Arr;
@@ -17,8 +18,11 @@ use Modulus\Utility\Process;
 use Modulus\Support\Shortcut;
 use Modulus\Utility\Variable;
 use Modulus\Http\UrlGenerator;
+use Modulus\Hibernate\Queue\Job;
 use Modulus\Utility\Notification;
 use AtlantisPHP\Telemonlog\Output;
+use Modulus\Hibernate\Queue\Dispatcher;
+use Modulus\Hibernate\Queue\ShouldQueue;
 
 if (!function_exists('command')) {
   /**
@@ -493,13 +497,13 @@ if (!function_exists('notify')) {
 }
 
 if (!function_exists('session')) {
- /**
-  * Return a session class
-  *
-  * @param mixed $key
-  * @param mixed $value
-  * @return
-  */
+  /**
+   * Return a session class
+   *
+   * @param mixed $key
+   * @param mixed $value
+   * @return
+   */
   function session($key = null, $value = null) {
     if ($key == null) return new Session;
     return Session::key($key, $value);
@@ -507,14 +511,27 @@ if (!function_exists('session')) {
 }
 
 if (!function_exists('flash')) {
- /**
-  * Create a flash message
-  *
-  * @param string $key
-  * @param mixed $value
-  * @return
-  */
+  /**
+   * Create a flash message
+   *
+   * @param string $key
+   * @param mixed $value
+   * @return
+   */
   function flash(string $key, $value = null) {
     return Session::flash($key, $value);
+  }
+}
+
+if (!function_exists('dispatch')) {
+  /**
+   * Pushes a new job onto the Hibernate Queue
+   *
+   * @param ShouldQueue $queue The dispatchable job
+   * @param Carbon|null $delay Set the desired delay for the job
+   * @return string
+   */
+  function dispatch(ShouldQueue $queue, ?Carbon $delay = null) {
+    return Dispatcher::now($queue, $delay);
   }
 }
