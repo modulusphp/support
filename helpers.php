@@ -431,13 +431,13 @@ if (!function_exists('cache')) {
 
     if (count($args) == 1) {
       return Cache::get($args[0]);
-    } else if (count($args) > 1) {
-      return Cache::set($args[0], $args[1]);
-    } else if (count($args) == 0) {
-      return new Cache();
+    } else if (count($args) == 2) {
+      return Cache::forever($args[0], $args[1]);
+    } else if (count($args) == 3) {
+      return Cache::set($args[0], $args[1], $args[2]);
     }
 
-    return false;
+    return new Cache();
   }
 }
 
