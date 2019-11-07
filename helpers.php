@@ -17,10 +17,10 @@ use Modulus\Utility\Command;
 use Modulus\Utility\Process;
 use Modulus\Support\Shortcut;
 use Modulus\Utility\Variable;
+use Modulus\Hibernate\Logger;
 use Modulus\Http\UrlGenerator;
 use Modulus\Hibernate\Queue\Job;
 use Modulus\Utility\Notification;
-use AtlantisPHP\Telemonlog\Output;
 use Modulus\Hibernate\Queue\Dispatcher;
 use Modulus\Hibernate\Queue\ShouldQueue;
 
@@ -377,7 +377,7 @@ if (!function_exists('emergency')) {
    * @return void
    */
   function emergency($message, $data = []) {
-    return Output::emergency($message, $data);
+    return Logger::emergency($message, $data);
   }
 }
 
@@ -390,7 +390,7 @@ if (!function_exists('alert')) {
    * @return void
    */
   function alert($message, $data = []) {
-    return Output::alert($message, $data);
+    return Logger::alert($message, $data);
   }
 }
 
@@ -403,7 +403,7 @@ if (!function_exists('critical')) {
    * @return void
    */
   function critical($message, $data = []) {
-    return Output::critical($message, $data);
+    return Logger::critical($message, $data);
   }
 }
 
@@ -416,7 +416,7 @@ if (!function_exists('info')) {
    * @return void
    */
   function info($message, $data = []) {
-    return Output::info($message, $data);
+    return Logger::info($message, $data);
   }
 }
 
